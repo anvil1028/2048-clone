@@ -128,7 +128,12 @@ function App() {
   });
 
   useEffect(() => {
-    initGame();
+    const newBoard = createEmptyBoard();
+    addRandomTile(newBoard);
+    addRandomTile(newBoard);
+    setBoard(newBoard);
+    setScore(0);
+    setGameover('false');
   }, []);
 
   return (
