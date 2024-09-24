@@ -1,6 +1,6 @@
 import type { Board, Direction } from './types';
 
-const createEmptyBoard = () => {
+const createEmptyBoard = (): Board => {
   return [
     [0, 0, 0, 0],
     [0, 0, 0, 0],
@@ -19,27 +19,36 @@ const transList = (
     return board;
   } else if (direction === 'right') {
     for (let i = 0; i < 4; i++) {
+      const row = newBoard[i];
       for (let j = 0; j < 4; j++) {
-        newBoard[i][j] = board[i][3 - j];
+        const row2 = board[i];
+        if (row !== undefined && row2 !== undefined) row[j] = row2[3 - j];
       }
+      if (row !== undefined) newBoard[i] = row;
     }
   } else if (
     (direction === 'up' && !revert) ||
     (direction === 'down' && revert)
   ) {
     for (let i = 0; i < 4; i++) {
+      const row = newBoard[i];
       for (let j = 0; j < 4; j++) {
-        newBoard[i][j] = board[j][3 - i];
+        const row2 = board[j];
+        if (row !== undefined && row2 !== undefined) row[j] = row2[3 - i];
       }
+      if (row !== undefined) newBoard[i] = row;
     }
   } else if (
     (direction === 'down' && !revert) ||
     (direction === 'up' && revert)
   ) {
     for (let i = 0; i < 4; i++) {
+      const row = newBoard[i];
       for (let j = 0; j < 4; j++) {
-        newBoard[i][j] = board[3 - j][i];
+        const row2 = board[3 - j];
+        if (row !== undefined && row2 !== undefined) row[j] = row2[i];
       }
+      if (row !== undefined) newBoard[i] = row;
     }
   }
   return newBoard;

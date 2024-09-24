@@ -3,8 +3,8 @@ import './App.css';
 
 import { useEffect, useState } from 'react';
 
-import GameBoard from './Board';
 import { createEmptyBoard, transList } from './functions';
+import GameBoard from './GameBoard';
 import Title from './Title';
 import type { Board, Direction, OverState } from './types';
 
@@ -38,10 +38,17 @@ function App() {
     let overstate = true;
     for (let i = 0; i < 4; i++) {
       for (let j = 0; j < 4; j++) {
-        if (newBoard[i][j] === 128) return 'win';
-        if (newBoard[i][j] === 0) overstate = false;
-        if (i < 3 && newBoard[i][j] === newBoard[i + 1][j]) overstate = false;
-        if (j < 3 && newBoard[i][j] === newBoard[i][j + 1]) overstate = false;
+        const row = newBoard[i];
+        if (row !== undefined) {
+          if (row[j] === 128) return 'win';
+          if (row[j] === 0) overstate = false;
+          if (i < 3) {
+            const row2 = newBoard[i + 1];
+            if (row2 !== undefined && row[j] === row2[j]) overstate = false;
+          }
+
+          if (j < 3 && row[j] === row[j + 1]) overstate = false;
+        }
       }
     }
     if (overstate) return 'lose';
@@ -61,8 +68,11 @@ function App() {
           i < filteredRow.length - 1 &&
           filteredRow[i] === filteredRow[i + 1]
         ) {
-          mergedRow.push(filteredRow[i] * 2);
-          newScore += filteredRow[i] * 2;
+          const tmp = filteredRow[i];
+          if (tmp !== undefined) {
+            mergedRow.push(tmp * 2);
+            newScore += tmp * 2;
+          }
           i++;
           didMove = true;
         } else {
@@ -110,17 +120,16 @@ function App() {
         break;
     }
   };
-
-  useEffect(() => {
-    initGame();
-  }, []);
-
   useEffect(() => {
     if (gameover === 'false') window.addEventListener('keydown', onKeyDown);
     return () => {
       window.removeEventListener('keydown', onKeyDown);
     };
   });
+
+  useEffect(() => {
+    initGame();
+  }, []);
 
   return (
     <>
