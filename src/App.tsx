@@ -57,7 +57,8 @@ function App() {
 
   const moveTile = (direction: Direction) => {
     let newBoard = transList([...board], direction);
-    let didMove = false;
+    let didMove;
+    didMove = false;
     let newScore = score;
 
     newBoard = newBoard.map((row) => {
