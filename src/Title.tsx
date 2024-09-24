@@ -1,5 +1,3 @@
-import React from 'react';
-
 type titleProps = {
   score: number;
   newGame: () => void;

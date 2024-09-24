@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Tile from './Tile';
 import type { Board, OverState } from './types';
 
