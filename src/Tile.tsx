@@ -1,8 +1,4 @@
-type tileProps = {
-  value: number | undefined;
-};
-
-const Tile = ({ value }: tileProps) => {
+const Tile = ({ value }: { value: number | undefined }) => {
   const bgColorList = [
     '#EEE4DA',
     '#EEE1C9',
@@ -14,7 +10,7 @@ const Tile = ({ value }: tileProps) => {
   ];
 
   const createBgColor = (val: number | undefined) => {
-    let bgColor: string | undefined = '#cdc1b4';
+    let bgColor: string | undefined;
 
     switch (val) {
       case 2:
@@ -38,6 +34,8 @@ const Tile = ({ value }: tileProps) => {
       case 128:
         bgColor = bgColorList[6];
         break;
+      default:
+        bgColor = '#cdc1b4';
     }
     return bgColor;
   };
@@ -52,7 +50,7 @@ const Tile = ({ value }: tileProps) => {
 
   return (
     <div
-      className="box"
+      className="flex justify-center items-center text-[48px] rounded-[10px] font-semibold text-[#776e65]"
       style={{
         backgroundColor: createBgColor(value),
         color: createColor(value),

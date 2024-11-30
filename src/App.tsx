@@ -36,21 +36,19 @@ function App() {
 
   const checkGameover = (newBoard: Board): OverState => {
     let overstate = true;
-    for (let i = 0; i < 4; i++) {
-      for (let j = 0; j < 4; j++) {
-        const row = newBoard[i];
-        if (row !== undefined) {
-          if (row[j] === 128) return 'win';
-          if (row[j] === 0) overstate = false;
-          if (i < 3) {
-            const row2 = newBoard[i + 1];
-            if (row2 !== undefined && row[j] === row2[j]) overstate = false;
-          }
-
-          if (j < 3 && row[j] === row[j + 1]) overstate = false;
+    let win = false;
+    newBoard.map((row, i) => {
+      row.map((num, j) => {
+        if (num === 128) win = true;
+        if (num === 0) overstate = false;
+        if (i < 3) {
+          const tmp = newBoard[i + 1];
+          if (tmp !== undefined && num === tmp[j]) overstate = false;
         }
-      }
-    }
+        if (j < 3 && num === row[j + 1]) overstate = false;
+      });
+    });
+    if (win) return 'win';
     if (overstate) return 'lose';
     else return 'false';
   };
@@ -99,29 +97,29 @@ function App() {
     }
   };
 
-  const onKeyDown = (e: WindowEventMap['keydown']) => {
-    switch (e.key) {
-      case 'ArrowUp':
-      case 'w':
-        moveTile('up');
-        break;
-      case 'ArrowDown':
-      case 's':
-        moveTile('down');
-        break;
-      case 'ArrowLeft':
-      case 'a':
-        moveTile('left');
-        break;
-      case 'ArrowRight':
-      case 'd':
-        moveTile('right');
-        break;
-      default:
-        break;
-    }
-  };
   useEffect(() => {
+    const onKeyDown = (e: WindowEventMap['keydown']) => {
+      switch (e.key) {
+        case 'ArrowUp':
+        case 'w':
+          moveTile('up');
+          break;
+        case 'ArrowDown':
+        case 's':
+          moveTile('down');
+          break;
+        case 'ArrowLeft':
+        case 'a':
+          moveTile('left');
+          break;
+        case 'ArrowRight':
+        case 'd':
+          moveTile('right');
+          break;
+        default:
+          break;
+      }
+    };
     if (gameover === 'false') window.addEventListener('keydown', onKeyDown);
     return () => {
       window.removeEventListener('keydown', onKeyDown);
