@@ -35,8 +35,10 @@ function App() {
   };
 
   const checkGameover = (newBoard: Board): OverState => {
-    let overstate = true;
-    let win = false;
+    let overstate;
+    overstate = true;
+    let win;
+    win = false;
     newBoard.map((row, i) => {
       row.map((num, j) => {
         if (num === 128) win = true;
